@@ -12,10 +12,12 @@ class ShowViewModel: ObservableObject {
     @Published var errorMessage: String?
     
     func fetchShows(page: Int) async {
+        guard shows.isEmpty else { return }
+        
         do {
-            let shows = try await API.fetchShows(page: page)
+            let newShows = try await API.fetchShows(page: page)
             DispatchQueue.main.async { [weak self] in
-                self?.shows = shows
+                self?.shows.append(contentsOf: newShows)
             }
         } catch {
             DispatchQueue.main.async { [weak self] in
@@ -26,9 +28,9 @@ class ShowViewModel: ObservableObject {
     
     func searchShows(query: String) async {
         do {
-            let shows = try await API.searchShows(query: query)
+            let searchedShows = try await API.searchShows(query: query)
             DispatchQueue.main.async { [weak self] in
-                self?.shows = shows
+                self?.shows = searchedShows
             }
         } catch {
             DispatchQueue.main.async { [weak self] in

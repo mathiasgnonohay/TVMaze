@@ -21,7 +21,7 @@ struct API {
     }
     
     static func searchShows(query: String) async throws -> [Show] {
-        let url = URL(string: "\(baseURL)/search?shows?q=\(query)" )!
+        let url = URL(string: "\(baseURL)/search/shows?q=\(query)" )!
         
         let (data, _) = try await URLSession.shared.data(from: url)
         

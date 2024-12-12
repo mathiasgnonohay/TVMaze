@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Show: Codable, Identifiable {
+struct Show: Codable, Identifiable, Equatable {
     let id: Int
     let name: String
     let image: ImageData?
@@ -15,6 +15,11 @@ struct Show: Codable, Identifiable {
     let genres: [String]
     let summary: String
     let _embedded: Embedded?
+    
+    static func == (lhs: Show, rhs: Show) -> Bool {
+        return lhs.id == rhs.id &&
+            lhs.name == rhs.name
+    }
 }
 
 struct ImageData: Codable {
