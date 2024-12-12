@@ -54,7 +54,9 @@ struct ContentView: View {
             }
             .navigationTitle("TV Shows")
             .task {
-                await viewModel.fetchShows(page: 0)
+                if viewModel.shows.isEmpty {
+                    await viewModel.fetchShows(page: 0)
+                }
             }
         }
     }
