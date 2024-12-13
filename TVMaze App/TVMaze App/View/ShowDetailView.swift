@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ShowDetailView: View {
+    @StateObject private var viewModel = ShowDetailViewModel()
     let show: Show
     
     var body: some View {
@@ -26,10 +27,47 @@ struct ShowDetailView: View {
                     .font(.largeTitle)
                     .padding()
                 Text("Airs \(show.schedule.days.joined(separator: ", ")) at \(show.schedule.time)")
+                    .padding()
                 Text("Genres: \(show.genres.joined(separator: ", "))")
+                    .padding()
                 Text("Summary: \(show.summary)")
-            }
+                    .padding()
+                
+                if !viewModel.episodes.isEmpty {
+                    episodesView(episodes: viewModel.episodes)
+                } else {
+                    ProgressView("Loading Episodes")
+                        .task {
+                            await viewModel.fetchShowEpisodes(id: show.id)
+                        }
+                }
+            }.padding()
         }
+        .navigationTitle(show.name)
+        .navigationBarTitleDisplayMode(.inline)
+    }
+    
+    @ViewBuilder
+    func episodesView(episodes: [Episode]) -> some View {
+        let episodesBySeason = Dictionary(grouping: episodes, by: { $0.season })
+        let sortedSeason = episodesBySeason.keys.sorted()
+        
+        Group {
+            ForEach(sortedSeason, id: \.self) { season in
+                Section(header: Text("Season \(season)")) {
+                    ForEach(episodesBySeason[season] ?? [], id: \.id) { episode in
+                        NavigationLink(destination: EpisodeDetailView(episode: episode)) {
+                            HStack {
+                                Text(episode.name)
+                                Spacer()
+                                Text("Episode \(episode.number)")
+                                    .foregroundStyle(.gray)
+                            }
+                        }
+                    }
+                }
+            }
+        }.listStyle(.inset)
     }
 }
 

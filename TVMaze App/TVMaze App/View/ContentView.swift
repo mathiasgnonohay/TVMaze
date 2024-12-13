@@ -33,7 +33,8 @@ struct ContentView: View {
                                 
                                 Text(show.name)
                             }
-                        }.onAppear {
+                        }
+                        .onAppear {
                             if viewModel.shows.last == show {
                                 Task { await loadMoreShows() }
                             }

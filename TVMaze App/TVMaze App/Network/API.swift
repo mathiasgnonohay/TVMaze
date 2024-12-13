@@ -31,4 +31,14 @@ struct API {
         
         return shows
     }
+    
+    static func fetchShowEpisodes(id: Int) async throws -> Show {
+        let url = URL(string: "\(baseURL)/shows/\(id)?embed=episodes")!
+        
+        let (data, _) = try await URLSession.shared.data(from: url)
+        
+        let show = try JSONDecoder().decode(Show.self, from: data)
+        
+        return show
+    }
 }
