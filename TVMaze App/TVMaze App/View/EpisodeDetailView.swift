@@ -28,7 +28,7 @@ struct EpisodeDetailView: View {
                 
                 Text("Season \(episode.season), Episode \(episode.number)")
                     .foregroundStyle(.gray)
-                Text("Summary: \(episode.summary)")
+                Text("Summary: \(episode.summary.htmlToString())")
                     .padding()
             }
         }

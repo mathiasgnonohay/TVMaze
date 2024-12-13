@@ -30,7 +30,7 @@ struct ShowDetailView: View {
                     .padding()
                 Text("Genres: \(show.genres.joined(separator: ", "))")
                     .padding()
-                Text("Summary: \(show.summary)")
+                Text("Summary: \(show.summary.htmlToString())")
                     .padding()
                 
                 if !viewModel.episodes.isEmpty {
@@ -63,11 +63,12 @@ struct ShowDetailView: View {
                                 Text("Episode \(episode.number)")
                                     .foregroundStyle(.gray)
                             }
+                            .padding(2)
                         }
                     }
                 }
             }
-        }.listStyle(.inset)
+        }
     }
 }
 
