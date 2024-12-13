@@ -7,10 +7,10 @@
 
 import Foundation
 
-struct API {
-    static let baseURL = "https://api.tvmaze.com"
+struct API: APIProtocol {
+    private let baseURL = "https://api.tvmaze.com"
     
-    static func fetchShows(page: Int) async throws -> [Show] {
+    func fetchShows(page: Int) async throws -> [Show] {
         let url = URL(string: "\(baseURL)/shows?page=\(page)" )!
         
         let (data, _) = try await URLSession.shared.data(from: url)
@@ -20,7 +20,7 @@ struct API {
         return shows
     }
     
-    static func searchShows(query: String) async throws -> [Show] {
+    func searchShows(query: String) async throws -> [Show] {
         let url = URL(string: "\(baseURL)/search/shows?q=\(query)" )!
         
         let (data, _) = try await URLSession.shared.data(from: url)
@@ -32,7 +32,7 @@ struct API {
         return shows
     }
     
-    static func fetchShowEpisodes(id: Int) async throws -> Show {
+    func fetchShowEpisodes(id: Int) async throws -> Show {
         let url = URL(string: "\(baseURL)/shows/\(id)?embed=episodes")!
         
         let (data, _) = try await URLSession.shared.data(from: url)
