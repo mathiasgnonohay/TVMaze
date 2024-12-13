@@ -22,8 +22,8 @@ TV Series Explorer is a SwiftUI application that allows users to browse and sear
 - Secure the app with a user-defined PIN.
 
 ## Requirements
-- iOS 14.0 or later
-- Xcode 12.0 or later
+- iOS 17.0 or later
+- Xcode 15.0 or later
 - Swift 5.0 or later
 
 ## Installation
